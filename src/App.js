@@ -33,6 +33,12 @@ const App = () => {
     setTasks(updatedTask);
   };
 
+  const deleteTask  = (id) => {
+    const updatedTask = tasks.filter(
+      (task) => task.id !== id
+    );
+    setTasks(updatedTask);
+  };
 
 
   return (
@@ -41,7 +47,7 @@ const App = () => {
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
-        <div>{<TaskList tasks={tasks} toggle={toggle} />}</div>
+        <div>{<TaskList tasks={tasks} toggle={toggle} deleteTask={deleteTask}/>}</div>
       </main>
     </div>
   );
