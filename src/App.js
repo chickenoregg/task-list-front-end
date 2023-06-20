@@ -1,23 +1,42 @@
-import React, { useState } from 'react';
+/* eslint-disable camelcase */
+import React, { useState, useEffect } from 'react';
 import TaskList from './components/TaskList.js';
 import './App.css';
+import axios from 'axios';
 
-const TASKS = [
-  {
-    id: 1,
-    title: 'Mow the lawn',
-    isComplete: false,
-  },
-  {
-    id: 2,
-    title: 'Cook Pasta',
-    isComplete: true,
-  },
-];
+// const TASKS = [
+//   {
+//     id: 1,
+//     title: 'Mow the lawn',
+//     isComplete: false,
+//   },
+//   {
+//     id: 2,
+//     title: 'Cook Pasta',
+//     isComplete: true,
+//   },
+// ];
 
 const App = () => {
 
-  const [tasks, setTasks] = useState(TASKS);
+
+    //initialized state variables to empty list - our model in the backendtt is a list
+  //changed isComplete to is_complete to match the backend model - tasklist api
+  const [tasks, setTasks] = useState([]);
+
+  // add UseEffect
+  // GET ALL
+  useEffect(() => {
+    axios.get('http://127.0.0.1:5000/tasks')
+      .then((response) => {
+        setTasks(response.data);
+      }).catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  // DELETE
+
 
   const toggle = (id) => {
     const updatedTask = tasks.map((task) => {
@@ -25,7 +44,7 @@ const App = () => {
         return {
           id: task.id,
           title: task.title,
-          isComplete: !task.isComplete
+          is_complete: !task.is_complete
         };
       }
       return task;
@@ -39,7 +58,6 @@ const App = () => {
     );
     setTasks(updatedTask);
   };
-
 
   return (
     <div className="App">
