@@ -3,23 +3,11 @@ import axios from 'axios';
 import TaskList from './components/TaskList.js';
 import './App.css';
 
-// const TASKS = [
-//   {
-//     id: 1,
-//     title: 'Mow the lawn',
-//     isComplete: false,
-//   },
-//   {
-//     id: 2,
-//     title: 'Cook Pasta',
-//     isComplete: true,
-//   },
-// ];
 
 const App = () => {
 
   const [tasks, setTasks] = useState([]);
-  const API = 'https://task-list-api-c17.onrender.com';
+  const API = 'https://task-list-api-c17.onrender.com/tasks';
 
   useEffect(() => {
     axios.get(API)
@@ -66,11 +54,26 @@ const App = () => {
   };
 
   const deleteTask  = (id) => {
-    const updatedTask = tasks.filter(
-      (task) => task.id !== id
-    );
-    setTasks(updatedTask);
+    axios
+      .delete(`${API}/${id}`)
+      .then(() => {
+        const updatedTask = tasks.filter(
+          (task) => task.id !== id
+        );
+        setTasks(updatedTask);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  const createTask = () => {
+    axios
+      .post(API)
+      .then((result) => {
+        
+      })
+  }
 
 
   return (
