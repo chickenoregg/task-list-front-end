@@ -3,21 +3,35 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TaskList from './components/TaskList.js';
 import './App.css';
+import NewTaskForm from './components/NewTaskForm.js';
 
 const App = () => {
 
   const [tasks, setTasks] = useState([]);
   const API = 'https://task-list-api-c17.onrender.com/tasks';
 
-  useEffect(() => {
-    axios.get(API)
+  const getAllTasks = () =>
+      axios.get(API)
     .then((result) => {
       setTasks(result.data);
     })
     .catch((err) => {
       console.log(err);
     });
+
+  useEffect(() => {
+    getAllTasks();
   }, []);
+
+  const createTask = (newTaskData) => {
+    axios.post(API, newTaskData)
+    .then((result) => {
+      getAllTasks();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
 
   const checkCompleteness = (id) => {
     for (let task of tasks) {
@@ -66,15 +80,6 @@ const App = () => {
       });
   };
   
-  // TO FINISH FRIDAY WITH FORMS
-  // const createTask = () => {
-  //   axios
-  //     .post(API)
-  //     .then((result) => {
-        
-  //     })
-  // }
-
 
   return (
     <div className="App">
@@ -82,7 +87,8 @@ const App = () => {
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
-        <div>{<TaskList tasks={tasks} toggle={toggle} deleteTask={deleteTask}/>}</div>
+        <div>{<TaskList tasks={tasks} toggle={toggle} deleteTask={deleteTask} />}</div>
+        <NewTaskForm createTask={createTask}/>
       </main>
     </div>
   );
