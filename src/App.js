@@ -1,8 +1,8 @@
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TaskList from './components/TaskList.js';
 import './App.css';
-
 
 const App = () => {
 
@@ -41,7 +41,6 @@ const App = () => {
             return {
               id: task.id,
               title: task.title,
-              // eslint-disable-next-line camelcase
               is_complete: !task.is_complete
             };
           }
@@ -66,14 +65,15 @@ const App = () => {
         console.log(err);
       });
   };
-
-  const createTask = () => {
-    axios
-      .post(API)
-      .then((result) => {
+  
+  // TO FINISH FRIDAY WITH FORMS
+  // const createTask = () => {
+  //   axios
+  //     .post(API)
+  //     .then((result) => {
         
-      })
-  }
+  //     })
+  // }
 
 
   return (
